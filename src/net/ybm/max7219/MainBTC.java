@@ -80,7 +80,7 @@ public class MainBTC
 		driver.sendTwice(Max7219Address.DECODE_MODE, 0xFF);
 		driver.sendTwice(Max7219Address.DISPLAY_TEST, 0x0);
 		driver.sendTwice(Max7219Address.INTENSITY, maxIntensity);
-		
+		driver.sendTwice(Max7219Address.SHUTDOWN, 1);
 	}
 	
 	private void init()
@@ -95,8 +95,6 @@ public class MainBTC
 		driver.sendTwice(Max7219Address.DIGIT5, 0xF);
 		driver.sendTwice(Max7219Address.DIGIT6, 0xF);
 		driver.sendTwice(Max7219Address.DIGIT7, 0xF);
-		
-		driver.sendTwice(Max7219Address.SHUTDOWN, 1);
 		
 		int startT = 80;
 		int deltaT = 6;
