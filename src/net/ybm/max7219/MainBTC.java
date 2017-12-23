@@ -420,6 +420,22 @@ public class MainBTC
 				}
 				
 				int rate = (int) Math.round(rateD);
+				boolean topDot = false;
+				boolean bottomDot = false;
+				
+				// Debug
+				if (rate >= 100000)
+				{
+					rate /= 100;
+					topDot = true;
+					bottomDot = true;
+				}
+				else if (rate >= 10000)
+				{
+					rate /= 10;
+					topDot = true;
+				}
+				
 				int msd = rate / 1000;
 				if (msd == 0)
 				{
@@ -428,8 +444,22 @@ public class MainBTC
 				
 				driver.sendTwice(Max7219Address.DECODE_MODE, 0xFF);
 				driver.sendTwice(Max7219Address.INTENSITY, 0);
-				sendToDriver(driver, msd, (rate / 100) % 10, (rate / 10) % 10,
-				    rate % 10);
+				
+				int d0 = msd;
+				int d1 = (rate / 100) % 10;
+				int d2 = (rate / 10) % 10;
+				int d3 = rate % 10;
+				
+				if (topDot)
+				{
+					d1 |= 0x80;
+				}
+				if (bottomDot)
+				{
+					d2 |= 0x80;
+				}
+				
+				sendToDriver(driver, d0, d1, d2, d3);
 				
 				for (int i = 1; i <= maxIntensity; i++)
 				{
